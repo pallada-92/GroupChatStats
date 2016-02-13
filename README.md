@@ -1,5 +1,7 @@
 # Анализатор групповых чатов
 
+Mockup: https://drive.google.com/file/d/0BxenI4btK8MZcHB6bVNvdTBJeWc/view
+
 #### Минимальная функциональность &mdash; бот для Telegram
 
 Пример подобного бота: http://botfamily.com/bot/details/messagestatisticsbot
