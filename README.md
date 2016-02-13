@@ -1,6 +1,6 @@
 # Анализатор групповых чатов
 
-Mockup: https://drive.google.com/file/d/0BxenI4btK8MZcHB6bVNvdTBJeWc/view
+Mockup: https://drive.google.com/file/d/0BxenI4btK8MZelY3RzBJODZDMEU/view?usp=sharing
 
 #### Минимальная функциональность &mdash; бот для Telegram
 
