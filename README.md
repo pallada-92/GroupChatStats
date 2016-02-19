@@ -1,5 +1,7 @@
 # Анализатор групповых чатов
 
+Ярослав Сергиенко, проектная работа ФКН НИУ ВШЭ, группа БПМИ141-1.
+
 Mockup: https://drive.google.com/file/d/0BxenI4btK8MZelY3RzBJODZDMEU/view?usp=sharing
 
 #### Минимальная функциональность &mdash; бот для Telegram
