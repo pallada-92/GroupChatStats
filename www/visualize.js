@@ -47,7 +47,7 @@ function draw_visualization(data) {
     html += htmls.join(", ") + '</div>';
   }
   e.find(".top-words").html(html);
-  var container = e.find(".messages-by-week .graph")[0];
+  var container = e.find(".messages-by-week .graph").empty()[0];
   var items = [];
   for (var i=0; i<data.periods.weekdays.length; i++) {
     var item = data.periods.weekdays[i];
