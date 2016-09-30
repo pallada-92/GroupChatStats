@@ -975,15 +975,13 @@ if 'get_ipython' in globals():
     server_dir = '/data/sets/server/gchatstats'
     static_dir = '/data/sets/server/gchatstats/static'
 else:
-    port = 8088
+    port = 80
     client_url = 'http://localhost:8888'
-    server_url = 'http://localhost:%d' % port
+    server_url = 'http://host:%d' % port
     data_dir = '/data/sets/server/gchatstats/data'
     server_dir = '/data/sets/server/gchatstats'
     static_dir = '/data/sets/server/gchatstats/static'
 
-debug_tg_chat = '153015804'
-debug_vk_chat = '3997947355'
 main_bot_token = '280926150:AAH8z72HwMDrmRXdUHQiCeWqobDzThnD1HU'
 tg_report_token = '253264911:AAEAJFEq0gQ6SdUKjlBBAXbNAzGSskSrcBg'
 tg_report_chat_id = '153015804'

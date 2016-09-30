@@ -637,12 +637,12 @@ require(["react", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/bui
 require(["react", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js", "jquery"], function(React, R, ReactDOM, $) {
 if (window.location.hostname == 'localhost') {
     if (window.IPython) {
-        window.server_path = 'http://localhost:8080';        
+        window.server_path = '';//http://localhost:8080';        
     } else {
-        window.server_path = 'http://localhost:8088';
+        window.server_path = '';//http://localhost:8088';
     }
 } else {
-    window.server_path = 'http://localhost:8080';
+    window.server_path = '';//http://localhost:8080';
 }
 if (!window.IPython) {
     $(function() {
