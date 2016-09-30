@@ -104,4 +104,4 @@ python server.py
 
 ### Сетевое взаимодействие
 
-<img src="networs.png">
+<img src="network.png">
