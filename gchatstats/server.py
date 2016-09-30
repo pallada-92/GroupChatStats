@@ -978,9 +978,9 @@ else:
     port = 80
     client_url = 'http://localhost:8888'
     server_url = 'http://host:%d' % port
-    data_dir = '/data/sets/server/gchatstats/data'
-    server_dir = '/data/sets/server/gchatstats'
-    static_dir = '/data/sets/server/gchatstats/static'
+    data_dir = 'data' # '/data/sets/server/gchatstats/data'
+    server_dir = '.' # '/data/sets/server/gchatstats'
+    static_dir = 'static' #'/data/sets/server/gchatstats/static'
 
 main_bot_token = '280926150:AAH8z72HwMDrmRXdUHQiCeWqobDzThnD1HU'
 tg_report_token = '253264911:AAEAJFEq0gQ6SdUKjlBBAXbNAzGSskSrcBg'
