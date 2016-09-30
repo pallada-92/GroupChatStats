@@ -1,0 +1,656 @@
+<!DOCTYPE html><html><head>
+<meta charset="utf-8">
+<title>Проанализировать групповой чат VK!</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+<style>
+.css1 .root {
+    font-family: Roboto, Helvetica;
+    color: #333333;
+    background-color: white;
+}
+.css1 .container {
+    position: relative;
+    width: 800px;
+    left: 50%;
+    margin-left: -400px;
+}
+.css1 .link {
+    color: #5555EE;
+    cursor: pointer;
+    -webkit-transition: color 0.3s;
+    -moz-transition: color 0.3s;
+    -o-transition: color 0.3s;
+    transition: color 0.3s
+}
+.css1 .link:hover {
+    color: #CC0000;
+}
+.css1 .error {
+    color: #CC0000;
+    margin: 10px;
+}
+.css1 li {
+    margin-bottom: 30px;
+}
+.css1 h1 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 40px;
+    margin-top: 30px;
+    color: #333333;
+}
+
+</style>
+<style>
+.css1 .remarks {
+    color: gray;
+    width: 100%;
+    padding-top: 40px;
+    text-align: left;
+}
+.css1 .remark {
+    padding: 10px 0px;
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+}
+.css1 .remark2 {
+    padding: 10px 0px;
+    display: inline-block;
+    width: 50%;
+    text-align: left;
+}
+
+</style>
+
+<script src="/static/requirejs@2.3.1/require.min.js"></script>
+<script>
+require.config({paths:
+ {
+    "jquery": "/static/jquery@2.1.1/jquery.min",
+    "react": "/static/react@15.3.1/build/react.min"
+}
+});
+
+</script>
+<script>
+require.config({
+  waitSeconds : 60
+})
+// http://stackoverflow.com/questions/5916900/how-can-you-detect-the-version-of-a-browser
+window.get_browser = function(){
+    var ua=navigator.userAgent,tem,M=ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
+    if(/trident/i.test(M[1])){
+        tem=/\brv[ :]+(\d+)/g.exec(ua) || []; 
+        return {name:'IE',version:(tem[1]||'')};
+        }   
+    if(M[1]==='Chrome'){
+        tem=ua.match(/\bOPR\/(\d+)/)
+        if(tem!=null) {return {name:'Opera', version:tem[1]};}
+        }   
+    M=M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+    if((tem=ua.match(/version\/(\d+)/i))!=null) {M.splice(1,1,tem[1]);}
+    return M[0] + ' ' + M[1];
+ }
+
+function get_debug_info() {
+    return {
+        hash: window.location.hash,
+        ipython: window.IPython,
+        browser: get_browser(),
+        state: window.state
+    }
+}
+
+window.onerror = function(msg, url, line, col, error) {
+    var message = "Error: " + msg + "\nurl: " + url + "\nline: " + line ;
+    message += !col ? '' : '\ncolumn: ' + col;
+    message += !error ? '' : '\nerror: ' + error;
+    console.log(message);
+    $.post(server_path + '/error', {
+        page : window.location.href.split('#')[0],
+        message : message,
+        info : JSON.stringify(get_debug_info()),
+    }, function() {
+        alert('Произошла ошибка.\nИнформация отправлена администратору.\nПопробуйте перезагрузить страницу и повторить запрос.')
+    }).fail(function() {
+        alert('Не удается связаться с сервером.\n\
+Проверьте соединение и перезагрузите эту страницу.\n\
+Если соединение не прерывалось, то это проблема на стороне сервера.\n\
+В этом случае напишите на pallada-92@ya.ru');
+    });
+    return true;
+};
+</script>
+<script>
+
+</script>
+<script>
+"use strict";
+
+require(["react", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js", "jquery"], function (React, R, ReactDOM, $) {
+    window.reset = function () {
+        window.consts = {
+            chat_names_step: 200,
+            messages_step: 200,
+            messages_limit: 2000
+        };
+        window.secret = {
+            token: undefined
+        };
+        window.state = {
+            page: 1,
+            user_id: undefined,
+            chat_id: undefined,
+            chat_names_offset: 0,
+            chat_names_get: false,
+            chat_names_count: undefined,
+            hash: Math.round(Math.random() * 10000000000),
+            messages_get_offset: 0,
+            messages_post_offset: 0,
+            messages_all_count: undefined,
+            messages_count: undefined,
+            page3: 'get_messages' // 'post_messages' / 'get_users' / 'post_users' / 'finished'
+        };
+        window.cache = {
+            chat_names: [],
+            vk_requests_queue: []
+        };
+    };
+
+    window.generic_vk_request = function (method, params, ok_handler) {
+        var url = 'https://api.vk.com/method/' + method + '?callback=?';
+        $.getJSON(url, params).done(function (data, text) {
+            if ('response' in data) {
+                ok_handler(data['response']);
+            } else {
+                throw JSON.stringify({ url: url, data: data });
+            };
+        }).fail(function (jq, text, exception) {
+            var info = { jq: jq, text: text, exception: exception, url: url };
+            throw JSON.stringify(info);
+        });
+    };
+
+    window.generic_server_request = function (method, params, ok_handler) {
+        var url = server_path + '/' + method;
+        $.post(url, params).done(function (data, text) {
+            ok_handler(data);
+        }).fail(function (jq, text, exception) {
+            var info = { jq: jq, text: text, exception: exception, url: url };
+            throw JSON.stringify(info);
+        });
+    };
+
+    window.get_chat_names = function () {
+        generic_vk_request('messages.getDialogs', {
+            access_token: secret.token,
+            offset: state.chat_names_offset,
+            count: consts.chat_names_step,
+            v: '5.38'
+        }, function (response) {
+            state.chat_names_count = response.count;
+            state.chat_names_offset += consts.chat_names_step;
+            console.log(response);
+            // Group chats are those, which have users_count field
+            var group_chats = R.filter(R.pathSatisfies(R.complement(R.equals(undefined)), ['message', 'users_count']), response.items);
+            // For each group chat, get pair [chat_id, title] and save it to state.chat_names
+            cache.chat_names = cache.chat_names.concat(R.map(R.juxt([R.path(['message', 'chat_id']), R.path(['message', 'title'])]), group_chats));
+            if (state.chat_names_offset < state.chat_names_count && state.page == 2) {
+                setTimeout(get_chat_names, 500);
+            } else if (state.chat_names_offset >= state.chat_names_count) {
+                state.chat_names_get = true;
+            }
+            render();
+        });
+    };
+
+    window.get_users = function () {
+        state.page3 = 'get_users';
+        generic_vk_request('messages.getChatUsers', {
+            access_token: secret.token,
+            chat_id: state.chat_id,
+            fields: 'screen_name, photo_50, photo_100, photo_200_orig',
+            v: '5.38'
+        }, function (response) {
+            console.log(response);
+            cache.chat_users = response;
+            if (state.page == 3) {
+                setTimeout(post_users, 300);
+            }
+            render();
+        });
+    };
+
+    window.post_users = function () {
+        state.page3 = 'post_users';
+        console.log(JSON.stringify(cache.chat_users));
+        generic_server_request('upload_vk_users', {
+            user_id: state.user_id,
+            chat_id: state.chat_id,
+            chat_name: R.find(R.propEq(0, state.chat_id), cache.chat_names)[1],
+            hash: state.hash,
+            users_data: JSON.stringify(cache.chat_users)
+        }, function (response) {
+            get_messages();
+            render();
+        });
+    };
+
+    window.get_messages = function () {
+        state.page3 = 'get_messages';
+        console.log('get_messages', state.chat_id);
+        generic_vk_request('messages.getHistory', {
+            access_token: secret.token,
+            offset: state.messages_get_offset,
+            count: consts.messages_step,
+            peer_id: 2000000000 + state.chat_id,
+            v: '5.38'
+        }, function (response) {
+            console.log('resp', response);
+            state.messages_all_count = response.count;
+            state.messages_count = Math.min(state.messages_all_count, consts.messages_limit);
+            console.log('resp1');
+            state.messages_get_offset += consts.messages_step;
+            cache.messages = response.items;
+            console.log('setting timeout1', state.page);
+            if (state.page == 3) {
+                console.log('setting timeout');
+                setTimeout(post_messages, 300);
+            }
+            render();
+        });
+    };
+
+    window.post_messages = function () {
+        state.page3 = 'post_messages';
+        generic_server_request('upload_vk_messages', {
+            offset: state.messages_offset,
+            hash: state.hash,
+            messages: JSON.stringify(cache.messages)
+        }, function (response) {
+            state.messages_post_offset += consts.messages_step;
+            var limit_reached = state.messages_get_offset >= state.messages_count;
+            if (!limit_reached && state.page == 3) {
+                setTimeout(get_messages, 300);
+            } else if (limit_reached && state.page == 3) {
+                state.messages_loaded = true;
+                setTimeout(finalize_upload, 300);
+            }
+            render();
+        });
+    };
+
+    window.finalize_upload = function () {
+        state.page3 = 'finalizing';
+        render();
+        generic_server_request('upload_vk_finalize', {
+            hash: state.hash
+        }, function (response) {
+            state.page3 = 'finalized';
+            render();
+            window.location = server_path + '/vk' + state.hash;
+        });
+    };
+
+    window.check_addr_syntax = function (addr) {
+        var s1 = "https://oauth.vk.com/blank.html#access_token=";
+        var s2 = "&expires_in=";
+        var s3 = "&user_id=";
+        var p1 = addr.indexOf(s1);
+        if (p1 == -1) return { error: "Адрес должен начинаться с \"https://oauth.vk.com/blank.html#access_token=\"" };
+        var p2 = p1 + s1.length;
+        var p3 = addr.indexOf(s2);
+        if (p3 == -1) return { error: "В адресе должно быть поле \"&expires_in=\"" };
+        var token = addr.slice(p2, p3);
+        var p4 = p3 + s2.length;
+        var p5 = addr.indexOf(s3);
+        if (p5 == -1) return { error: "В адресе должно быть поле \"&user_id=\"" };
+        var expires = addr.slice(p4, p5);
+        var p6 = p5 + s3.length;
+        var p7 = addr.length;
+        var user_id = addr.slice(p6, p7);
+        if (!/^[0-9a-f]*$/.test(token) || token == '') return { error: "Некорректный токен \"" + token + "\"" };
+        if (!/^[0-9]*$/.test(user_id) || user_id == '') return { error: "Некорректный user_id \"" + user_id + "\"" };
+        return { token: token, user_id: user_id };
+    };
+});
+"use strict";
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+require(["react", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js", "jquery"], function (React, R, ReactDOM, $) {
+  window.Action = React.createClass({
+    displayName: "Action",
+
+    render: function render() {
+      return React.createElement(
+        "div",
+        { style: { textAlign: 'center', margin: 20 } },
+        React.createElement(
+          "span",
+          { className: "link", onClick: this.props.handler },
+          this.props.text
+        )
+      );
+    }
+  });
+
+  window.Actions = React.createClass({
+    displayName: "Actions",
+
+    render: function render() {
+      var _this = this;
+
+      var actions = R.map(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2);
+
+        var id = _ref2[0];
+        var title = _ref2[1];
+        return React.createElement(Action, { handler: _this.props.handler.bind(_this, id), text: title, key: id });
+      }, this.props.list);
+      return React.createElement(
+        "div",
+        null,
+        actions
+      );
+    }
+  });
+
+  window.Errors = React.createClass({
+    displayName: "Errors",
+
+    render: function render() {
+      var errors = R.map(function (error) {
+        return React.createElement(
+          "div",
+          { key: error, className: "error" },
+          error
+        );
+      }, this.props.data);
+      return React.createElement(
+        "div",
+        null,
+        errors
+      );
+    }
+  });
+
+  window.Progress = React.createClass({
+    displayName: "Progress",
+
+    render: function render() {
+      var preload_percent = this.props.preload * 100,
+          load_percent = this.props.value * 100;
+      var outer_style = {
+        height: 25,
+        borderRadius: 5,
+        border: '1px solid gray',
+        position: 'relative',
+        overflow: 'hidden'
+      },
+          preload_style = {
+        position: 'absolute',
+        backgroundColor: 'rgb(228, 243, 243)',
+        width: preload_percent + '%',
+        height: 25,
+        top: 0,
+        left: 0
+      },
+          load_style = {
+        position: 'absolute',
+        backgroundColor: 'lightblue',
+        width: load_percent + '%',
+        height: 25,
+        top: 0,
+        left: 0
+      },
+          text_style = {
+        fontSize: 15,
+        position: 'absolute',
+        color: '#555555',
+        top: 3,
+        left: 0,
+        width: '100%',
+        height: 20,
+        textAlign: 'center'
+      };
+      return React.createElement(
+        "div",
+        { style: outer_style },
+        React.createElement("div", { style: preload_style }),
+        React.createElement("div", { style: load_style }),
+        React.createElement(
+          "div",
+          { style: text_style },
+          this.props.text
+        )
+      );
+    }
+  });
+
+  window.Textarea = React.createClass({
+    displayName: "Textarea",
+
+    render: function render() {
+      var _this2 = this;
+
+      var handler = function handler(event) {
+        _this2.props.handler(event.target.value);
+      };
+      var style = { minWidth: '95%', minHeight: 50, padding: 5 };
+      return React.createElement("textarea", { style: style, ref: "textarea", onChange: handler, value: this.props.value });
+    }
+  });
+
+  window.FirstPage = React.createClass({
+    displayName: "FirstPage",
+
+    getInitialState: function getInitialState() {
+      return { value: '', errors: [] };
+    },
+    valChange: function valChange(value) {
+      var errors = [];
+      var parse_res = check_addr_syntax(value);
+      if ('error' in parse_res) {
+        if (value != '') {
+          errors.push(parse_res.error);
+          this.setState({ value: value, errors: errors });
+        }
+      } else {
+        state.page = 2;
+        secret.token = parse_res.token;
+        state.user_id = parse_res.user_id;
+        get_chat_names();
+        render();
+      }
+    },
+    render: function render() {
+      var href = "https://oauth.vk.com/authorize?client_id=4910996&redirect_uri=";
+      href += "https://oauth.vk.com/blank.html&display=page&scope=4096&response_type=token";
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "h1",
+          null,
+          "Получение токена для анализа групповых чатов"
+        ),
+        React.createElement(
+          "ul",
+          null,
+          React.createElement(
+            "li",
+            null,
+            "Перейдите по ",
+            React.createElement(
+              "a",
+              { href: href,
+                target: "_blank", className: "link" },
+              "ссылке"
+            ),
+            " в новом окне."
+          ),
+          React.createElement(
+            "li",
+            null,
+            "Разрешите приложению GroupChatStats доступ к работе с личными сообщениями."
+          ),
+          React.createElement(
+            "li",
+            null,
+            " Вы должны увидеть текст \"Пожалуйста, не копируйте данные из адресной строки...\""
+          ),
+          React.createElement(
+            "li",
+            null,
+            " Скопируйте данные из адресной строки, закройте окно и вставьте их сюда:",
+            React.createElement("br", null),
+            React.createElement("br", null),
+            React.createElement(Textarea, { handler: this.valChange, value: this.state.value }),
+            React.createElement(Errors, { data: this.state.errors })
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "remarks" },
+          React.createElement(
+            "div",
+            { className: "remark" },
+            "Токен не передается на сервер и используется исключительно для чтения истории выбранного группового чата."
+          )
+        )
+      );
+    }
+  });
+
+  window.SecondPage = React.createClass({
+    displayName: "SecondPage",
+
+    render: function (_render) {
+      function render() {
+        return _render.apply(this, arguments);
+      }
+
+      render.toString = function () {
+        return _render.toString();
+      };
+
+      return render;
+    }(function () {
+      var handler = function handler(chat_id) {
+        state.page = 3;
+        state.chat_id = chat_id;
+        get_users();
+        render();
+      };
+      var title = state.chat_names_get ? 'Выберите чат для анализа' : 'Идет получение списка чатов...';
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "h1",
+          null,
+          title
+        ),
+        React.createElement(Actions, { handler: handler, list: cache.chat_names }),
+        React.createElement(
+          "div",
+          { className: "remarks" },
+          React.createElement("div", { className: "remark" })
+        )
+      );
+    })
+  });
+
+  window.ThirdPage = React.createClass({
+    displayName: "ThirdPage",
+
+    render: function render() {
+      var title = 'Загрузка сообщений на сервер...';
+      if (state.page3 == 'finalized') {
+        title = 'Сообщения загружены!';
+      }
+      var preload = state.messages_get_offset / state.messages_count;
+      var progress = state.messages_post_offset / state.messages_count;
+      var count_text = '(' + state.messages_post_offset + ' / ' + state.messages_count + ')';
+      if (!state.messages_count) {
+        count_text = '';
+      }
+      var prog_text = {
+        get_users: 'Получение информации об участниках чата...',
+        post_users: 'Отправка информации об участниках чата...',
+        get_messages: 'Получение сообщений чата... ' + count_text,
+        post_messages: 'Отправка. сообщений чата... ' + count_text,
+        finalizing: 'Обработка данных...',
+        finalized: 'Завершение'
+      }[state.page3];
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "h1",
+          null,
+          title
+        ),
+        React.createElement(Progress, { value: progress, preload: preload, text: prog_text }),
+        React.createElement(
+          "div",
+          { className: "remarks" },
+          React.createElement("div", { className: "remark" })
+        )
+      );
+    }
+  });
+
+  window.Application = React.createClass({
+    displayName: "Application",
+
+    render: function render() {
+      var page_block = null;
+      if (state.page == 1) {
+        page_block = React.createElement(FirstPage, null);
+      } else if (state.page == 2) {
+        page_block = React.createElement(SecondPage, null);
+      } else if (state.page == 3) {
+        page_block = React.createElement(ThirdPage, null);
+      }
+      return React.createElement(
+        "div",
+        { className: "container" },
+        page_block
+      );
+    }
+  });
+
+  window.render = function () {
+    ReactDOM.render(React.createElement(Application, null), document.getElementById('root'));
+  };
+});
+
+</script>
+</head><body>
+<div class="css1">
+    <div id="root" class="root"></div>
+</div>
+<script>
+require(["react", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js", "jquery"], function(React, R, ReactDOM, $) {
+if (window.location.hostname == 'localhost') {
+    if (window.IPython) {
+        window.server_path = 'http://localhost:8080';        
+    } else {
+        window.server_path = 'http://localhost:8088';
+    }
+} else {
+    window.server_path = 'http://localhost:8080';
+}
+if (!window.IPython) {
+    $(function() {
+      reset();
+      render();
+    });
+}
+})
+
+</script>
+</body></html>

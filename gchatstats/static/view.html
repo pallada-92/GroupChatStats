@@ -1,0 +1,1654 @@
+<!DOCTYPE html><html><head>
+<meta charset="utf-8">
+<title>Загрузка...</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,600,700&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/fontawesome@4.6.3/css/font-awesome.min.css">
+<style>
+.visjs .vis-background, .visjs .vis-labelset, .visjs .vis-timeline{overflow:hidden}
+.visjs .vis .overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:10}
+.visjs .vis-active{box-shadow:0 0 10px #86d5f8}
+.visjs .vis [class*=span]{min-height:0;width:auto}
+.visjs div.vis-configuration{position:relative;display:block;float:left;font-size:12px}
+.visjs div.vis-configuration-wrapper{display:block;width:700px}
+.visjs div.vis-configuration-wrapper::after{clear:both;content:"";display:block}
+.visjs div.vis-configuration.vis-config-option-container{display:block;width:495px;background-color:#fff;border:2px solid #f7f8fa;border-radius:4px;margin-top:20px;left:10px;padding-left:5px}
+.visjs div.vis-configuration.vis-config-button{display:block;width:495px;height:25px;vertical-align:middle;line-height:25px;background-color:#f7f8fa;border:2px solid #ceced0;border-radius:4px;margin-top:20px;left:10px;padding-left:5px;cursor:pointer;margin-bottom:30px}
+.visjs div.vis-configuration.vis-config-button.hover{background-color:#4588e6;border:2px solid #214373;color:#fff}
+.visjs div.vis-configuration.vis-config-item{display:block;float:left;width:495px;height:25px;vertical-align:middle;line-height:25px}
+.visjs div.vis-configuration.vis-config-item.vis-config-s2{left:10px;background-color:#f7f8fa;padding-left:5px;border-radius:3px}
+.visjs div.vis-configuration.vis-config-item.vis-config-s3{left:20px;background-color:#e4e9f0;padding-left:5px;border-radius:3px}
+.visjs div.vis-configuration.vis-config-item.vis-config-s4{left:30px;background-color:#cfd8e6;padding-left:5px;border-radius:3px}
+.visjs div.vis-configuration.vis-config-header{font-size:18px;font-weight:700}
+.visjs div.vis-configuration.vis-config-label{width:120px;height:25px;line-height:25px}
+.visjs div.vis-configuration.vis-config-label.vis-config-s3{width:110px}
+.visjs div.vis-configuration.vis-config-label.vis-config-s4{width:100px}
+.visjs div.vis-configuration.vis-config-colorBlock{top:1px;width:30px;height:19px;border:1px solid #444;border-radius:2px;padding:0;margin:0;cursor:pointer}
+.visjs input.vis-configuration.vis-config-checkbox{left:-5px}
+.visjs input.vis-configuration.vis-config-rangeinput{position:relative;top:-5px;width:60px;padding:1px;margin:0;pointer-events:none}
+.visjs .vis-panel, .visjs .vis-timeline{padding:0;box-sizing:border-box}
+.visjs input.vis-configuration.vis-config-range{-webkit-appearance:none;border:0 solid #fff;background-color:rgba(0,0,0,0);width:300px;height:20px}
+.visjs input.vis-configuration.vis-config-range::-webkit-slider-runnable-track{width:300px;height:5px;background:#dedede;background:-moz-linear-gradient(top,#dedede 0,#c8c8c8 99%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#dedede),color-stop(99%,#c8c8c8));background:-webkit-linear-gradient(top,#dedede 0,#c8c8c8 99%);background:-o-linear-gradient(top,#dedede 0,#c8c8c8 99%);background:-ms-linear-gradient(top,#dedede 0,#c8c8c8 99%);background:linear-gradient(to bottom,#dedede 0,#c8c8c8 99%);filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#dedede', endColorstr='#c8c8c8', GradientType=0 );border:1px solid #999;box-shadow:#aaa 0 0 3px 0;border-radius:3px}
+.visjs input.vis-configuration.vis-config-range::-webkit-slider-thumb{-webkit-appearance:none;border:1px solid #14334b;height:17px;width:17px;border-radius:50%;background:#3876c2;background:-moz-linear-gradient(top,#3876c2 0,#385380 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#3876c2),color-stop(100%,#385380));background:-webkit-linear-gradient(top,#3876c2 0,#385380 100%);background:-o-linear-gradient(top,#3876c2 0,#385380 100%);background:-ms-linear-gradient(top,#3876c2 0,#385380 100%);background:linear-gradient(to bottom,#3876c2 0,#385380 100%);filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#3876c2', endColorstr='#385380', GradientType=0 );box-shadow:#111927 0 0 1px 0;margin-top:-7px}
+.visjs input.vis-configuration.vis-config-range:focus{outline:0}
+.visjs input.vis-configuration.vis-config-range:focus::-webkit-slider-runnable-track{background:#9d9d9d;background:-moz-linear-gradient(top,#9d9d9d 0,#c8c8c8 99%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#9d9d9d),color-stop(99%,#c8c8c8));background:-webkit-linear-gradient(top,#9d9d9d 0,#c8c8c8 99%);background:-o-linear-gradient(top,#9d9d9d 0,#c8c8c8 99%);background:-ms-linear-gradient(top,#9d9d9d 0,#c8c8c8 99%);background:linear-gradient(to bottom,#9d9d9d 0,#c8c8c8 99%);filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#9d9d9d', endColorstr='#c8c8c8', GradientType=0 )}
+.visjs input.vis-configuration.vis-config-range::-moz-range-track{width:300px;height:10px;background:#dedede;background:-moz-linear-gradient(top,#dedede 0,#c8c8c8 99%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#dedede),color-stop(99%,#c8c8c8));background:-webkit-linear-gradient(top,#dedede 0,#c8c8c8 99%);background:-o-linear-gradient(top,#dedede 0,#c8c8c8 99%);background:-ms-linear-gradient(top,#dedede 0,#c8c8c8 99%);background:linear-gradient(to bottom,#dedede 0,#c8c8c8 99%);filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#dedede', endColorstr='#c8c8c8', GradientType=0 );border:1px solid #999;box-shadow:#aaa 0 0 3px 0;border-radius:3px}
+.visjs input.vis-configuration.vis-config-range::-moz-range-thumb{border:none;height:16px;width:16px;border-radius:50%;background:#385380}
+.visjs input.vis-configuration.vis-config-range:-moz-focusring{outline:#fff solid 1px;outline-offset:-1px}
+.visjs input.vis-configuration.vis-config-range::-ms-track{width:300px;height:5px;background:0 0;border-color:transparent;border-width:6px 0;color:transparent}
+.visjs input.vis-configuration.vis-config-range::-ms-fill-lower{background:#777;border-radius:10px}
+.visjs input.vis-configuration.vis-config-range::-ms-fill-upper{background:#ddd;border-radius:10px}
+.visjs input.vis-configuration.vis-config-range::-ms-thumb{border:none;height:16px;width:16px;border-radius:50%;background:#385380}
+.visjs input.vis-configuration.vis-config-range:focus::-ms-fill-lower{background:#888}
+.visjs input.vis-configuration.vis-config-range:focus::-ms-fill-upper{background:#ccc}
+.visjs .vis-configuration-popup{position:absolute;background:rgba(57,76,89,.85);border:2px solid #f2faff;line-height:30px;height:30px;width:150px;text-align:center;color:#fff;font-size:14px;border-radius:4px;-webkit-transition:opacity .3s ease-in-out;-moz-transition:opacity .3s ease-in-out;transition:opacity .3s ease-in-out}
+.visjs .vis-configuration-popup:after, .visjs .vis-configuration-popup:before{left:100%;top:50%;border:solid transparent;content:" ";height:0;width:0;position:absolute;pointer-events:none}
+.visjs .vis-configuration-popup:after{border-color:rgba(136,183,213,0);border-left-color:rgba(57,76,89,.85);border-width:8px;margin-top:-8px}
+.visjs .vis-configuration-popup:before{border-color:rgba(194,225,245,0);border-left-color:#f2faff;border-width:12px;margin-top:-12px}
+.visjs .vis-timeline{position:relative;border:1px solid #bfbfbf;margin:0}
+.visjs .vis-panel{position:absolute;margin:0}
+.visjs .vis-panel.vis-bottom, .visjs .vis-panel.vis-center, .visjs .vis-panel.vis-left, .visjs .vis-panel.vis-right, .visjs .vis-panel.vis-top{border:1px #bfbfbf}
+.visjs .vis-panel.vis-center, .visjs .vis-panel.vis-left, .visjs .vis-panel.vis-right{border-top-style:solid;border-bottom-style:solid;overflow:hidden}
+.visjs .vis-panel.vis-bottom, .visjs .vis-panel.vis-center, .visjs .vis-panel.vis-top{border-left-style:solid;border-right-style:solid}
+.visjs .vis-panel>.vis-content{position:relative}
+.visjs .vis-panel .vis-shadow{position:absolute;width:100%;height:1px;box-shadow:0 0 10px rgba(0,0,0,.8)}
+.visjs .vis-itemset, .visjs .vis-labelset, .visjs .vis-labelset .vis-label{position:relative;box-sizing:border-box}
+.visjs .vis-panel .vis-shadow.vis-top{top:-1px;left:0}
+.visjs .vis-panel .vis-shadow.vis-bottom{bottom:-1px;left:0}
+.visjs .vis-labelset .vis-label{left:0;top:0;width:100%;color:#4d4d4d;border-bottom:1px solid #bfbfbf}
+.visjs .vis-labelset .vis-label.draggable{cursor:pointer}
+.visjs .vis-labelset .vis-label:last-child{border-bottom:none}
+.visjs .vis-labelset .vis-label .vis-inner{display:inline-block;padding:5px}
+.visjs .vis-labelset .vis-label .vis-inner.vis-hidden{padding:0}
+.visjs .vis-itemset{padding:0;margin:0}
+.visjs .vis-itemset .vis-background, .visjs .vis-itemset .vis-foreground{position:absolute;width:100%;height:100%;overflow:visible}
+.visjs .vis-axis{position:absolute;width:100%;height:0;left:0;z-index:1}
+.visjs .vis-foreground .vis-group{position:relative;box-sizing:border-box;border-bottom:1px solid #bfbfbf}
+.visjs .vis-foreground .vis-group:last-child{border-bottom:none}
+.visjs .vis-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:10}
+.visjs .vis-item{position:absolute;color:#1A1A1A;border-color:#97B0F8;border-width:1px;background-color:#D5DDF6;display:inline-block}
+.visjs .vis-item.vis-point.vis-selected, .visjs .vis-item.vis-selected{background-color:#FFF785}
+.visjs .vis-item.vis-selected{border-color:#FFC200;z-index:2}
+.visjs .vis-editable.vis-selected{cursor:move}
+.visjs .vis-item.vis-box{text-align:center;border-style:solid;border-radius:2px}
+.visjs .vis-item.vis-point{background:0 0}
+.visjs .vis-item.vis-dot{position:absolute;padding:0;border-width:4px;border-style:solid;border-radius:4px}
+.visjs .vis-item.vis-range{border-style:solid;border-radius:2px;box-sizing:border-box}
+.visjs .vis-item.vis-background{border:none;background-color:rgba(213,221,246,.4);box-sizing:border-box;padding:0;margin:0}
+.visjs .vis-item .vis-item-overflow{position:relative;width:100%;height:100%;padding:0;margin:0;overflow:hidden}
+.visjs .vis-item .vis-delete, .visjs .vis-item .vis-delete-rtl{background:url(img/timeline/delete.png) center no-repeat;height:24px;top:-4px;cursor:pointer}
+.visjs .vis-item.vis-range .vis-item-content{position:relative;display:inline-block}
+.visjs .vis-item.vis-background .vis-item-content{position:absolute;display:inline-block}
+.visjs .vis-item.vis-line{padding:0;position:absolute;width:0;border-left-width:1px;border-left-style:solid}
+.visjs .vis-item .vis-item-content{white-space:nowrap;box-sizing:border-box;padding:5px}
+.visjs .vis-item .vis-delete{position:absolute;width:24px;right:-24px}
+.visjs .vis-item .vis-delete-rtl{position:absolute;width:24px;left:-24px}
+.visjs .vis-item.vis-range .vis-drag-left{position:absolute;width:24px;max-width:20%;min-width:2px;height:100%;top:0;left:-4px;cursor:w-resize}
+.visjs .vis-item.vis-range .vis-drag-right{position:absolute;width:24px;max-width:20%;min-width:2px;height:100%;top:0;right:-4px;cursor:e-resize}
+.visjs .vis-range.vis-item.vis-readonly .vis-drag-left, .visjs .vis-range.vis-item.vis-readonly .vis-drag-right{cursor:auto}
+.visjs .vis-time-axis{position:relative;overflow:hidden}
+.visjs .vis-time-axis.vis-foreground{top:0;left:0;width:100%}
+.visjs .vis-time-axis.vis-background{position:absolute;top:0;left:0;width:100%;height:100%}
+.visjs .vis-time-axis .vis-text{position:absolute;color:#4d4d4d;padding:3px;overflow:hidden;box-sizing:border-box;white-space:nowrap}
+.visjs .vis-time-axis .vis-text.vis-measure{position:absolute;padding-left:0;padding-right:0;margin-left:0;margin-right:0;visibility:hidden}
+.visjs .vis-time-axis .vis-grid.vis-vertical{position:absolute;border-left:1px solid}
+.visjs .vis-time-axis .vis-grid.vis-vertical-rtl{position:absolute;border-right:1px solid}
+.visjs .vis-time-axis .vis-grid.vis-minor{border-color:#e5e5e5}
+.visjs .vis-time-axis .vis-grid.vis-major{border-color:#bfbfbf}
+.visjs .vis-current-time{background-color:#FF7F6E;width:2px;z-index:1}
+.visjs .vis-custom-time{background-color:#6E94FF;width:2px;cursor:move;z-index:1}
+.visjs div.vis-network div.vis-close, .visjs div.vis-network div.vis-edit-mode div.vis-button, .visjs div.vis-network div.vis-manipulation div.vis-button{cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-webkit-touch-callout:none;-khtml-user-select:none}
+.visjs .vis-panel.vis-background.vis-horizontal .vis-grid.vis-horizontal{position:absolute;width:100%;height:0;border-bottom:1px solid}
+.visjs .vis-panel.vis-background.vis-horizontal .vis-grid.vis-minor{border-color:#e5e5e5}
+.visjs .vis-panel.vis-background.vis-horizontal .vis-grid.vis-major{border-color:#bfbfbf}
+.visjs .vis-data-axis .vis-y-axis.vis-major{width:100%;position:absolute;color:#4d4d4d;white-space:nowrap}
+.visjs .vis-data-axis .vis-y-axis.vis-major.vis-measure{padding:0;margin:0;border:0;visibility:hidden;width:auto}
+.visjs .vis-data-axis .vis-y-axis.vis-minor{position:absolute;width:100%;color:#bebebe;white-space:nowrap}
+.visjs .vis-data-axis .vis-y-axis.vis-minor.vis-measure{padding:0;margin:0;border:0;visibility:hidden;width:auto}
+.visjs .vis-data-axis .vis-y-axis.vis-title{position:absolute;color:#4d4d4d;white-space:nowrap;bottom:20px;text-align:center}
+.visjs .vis-data-axis .vis-y-axis.vis-title.vis-measure{padding:0;margin:0;visibility:hidden;width:auto}
+.visjs .vis-data-axis .vis-y-axis.vis-title.vis-left{bottom:0;-webkit-transform-origin:left top;-moz-transform-origin:left top;-ms-transform-origin:left top;-o-transform-origin:left top;transform-origin:left bottom;-webkit-transform:rotate(-90deg);-moz-transform:rotate(-90deg);-ms-transform:rotate(-90deg);-o-transform:rotate(-90deg);transform:rotate(-90deg)}
+.visjs .vis-data-axis .vis-y-axis.vis-title.vis-right{bottom:0;-webkit-transform-origin:right bottom;-moz-transform-origin:right bottom;-ms-transform-origin:right bottom;-o-transform-origin:right bottom;transform-origin:right bottom;-webkit-transform:rotate(90deg);-moz-transform:rotate(90deg);-ms-transform:rotate(90deg);-o-transform:rotate(90deg);transform:rotate(90deg)}
+.visjs .vis-legend{background-color:rgba(247,252,255,.65);padding:5px;border:1px solid #b3b3b3;box-shadow:2px 2px 10px rgba(154,154,154,.55)}
+.visjs .vis-legend-text{white-space:nowrap;display:inline-block}
+.visjs .vis-graph-group0{fill:#4f81bd;fill-opacity:0;stroke-width:2px;stroke:#4f81bd}
+.visjs .vis-graph-group1{fill:#f79646;fill-opacity:0;stroke-width:2px;stroke:#f79646}
+.visjs .vis-graph-group2{fill:#8c51cf;fill-opacity:0;stroke-width:2px;stroke:#8c51cf}
+.visjs .vis-graph-group3{fill:#75c841;fill-opacity:0;stroke-width:2px;stroke:#75c841}
+.visjs .vis-graph-group4{fill:#ff0100;fill-opacity:0;stroke-width:2px;stroke:#ff0100}
+.visjs .vis-graph-group5{fill:#37d8e6;fill-opacity:0;stroke-width:2px;stroke:#37d8e6}
+.visjs .vis-graph-group6{fill:#042662;fill-opacity:0;stroke-width:2px;stroke:#042662}
+.visjs .vis-graph-group7{fill:#00ff26;fill-opacity:0;stroke-width:2px;stroke:#00ff26}
+.visjs .vis-graph-group8{fill:#f0f;fill-opacity:0;stroke-width:2px;stroke:#f0f}
+.visjs .vis-graph-group9{fill:#8f3938;fill-opacity:0;stroke-width:2px;stroke:#8f3938}
+.visjs .vis-timeline .vis-fill{fill-opacity:.1;stroke:none}
+.visjs .vis-timeline .vis-bar{fill-opacity:.5;stroke-width:1px}
+.visjs .vis-timeline .vis-point{stroke-width:2px;fill-opacity:1}
+.visjs .vis-timeline .vis-legend-background{stroke-width:1px;fill-opacity:.9;fill:#fff;stroke:#c2c2c2}
+.visjs .vis-timeline .vis-outline{stroke-width:1px;fill-opacity:1;fill:#fff;stroke:#e5e5e5}
+.visjs .vis-timeline .vis-icon-fill{fill-opacity:.3;stroke:none}
+.visjs div.vis-network div.vis-manipulation{border-width:0;border-bottom:1px;border-style:solid;border-color:#d6d9d8;background:#fff;background:-moz-linear-gradient(top,#fff 0,#fcfcfc 48%,#fafafa 50%,#fcfcfc 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#fff),color-stop(48%,#fcfcfc),color-stop(50%,#fafafa),color-stop(100%,#fcfcfc));background:-webkit-linear-gradient(top,#fff 0,#fcfcfc 48%,#fafafa 50%,#fcfcfc 100%);background:-o-linear-gradient(top,#fff 0,#fcfcfc 48%,#fafafa 50%,#fcfcfc 100%);background:-ms-linear-gradient(top,#fff 0,#fcfcfc 48%,#fafafa 50%,#fcfcfc 100%);background:linear-gradient(to bottom,#fff 0,#fcfcfc 48%,#fafafa 50%,#fcfcfc 100%);filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#fcfcfc', GradientType=0 );padding-top:4px;position:absolute;left:0;top:0;width:100%;height:28px}
+.visjs div.vis-network div.vis-edit-mode{position:absolute;left:0;top:5px;height:30px}
+.visjs div.vis-network div.vis-close{position:absolute;right:0;top:0;width:30px;height:30px;background-position:20px 3px;background-repeat:no-repeat;background-image:url(img/network/cross.png);user-select:none}
+.visjs div.vis-network div.vis-close:hover{opacity:.6}
+.visjs div.vis-network div.vis-edit-mode div.vis-button, .visjs div.vis-network div.vis-manipulation div.vis-button{float:left;font-family:verdana;font-size:12px;-moz-border-radius:15px;border-radius:15px;display:inline-block;background-position:0 0;background-repeat:no-repeat;height:24px;margin-left:10px;padding:0 8px;user-select:none}
+.visjs div.vis-network div.vis-manipulation div.vis-button:hover{box-shadow:1px 1px 8px rgba(0,0,0,.2)}
+.visjs div.vis-network div.vis-manipulation div.vis-button:active{box-shadow:1px 1px 8px rgba(0,0,0,.5)}
+.visjs div.vis-network div.vis-manipulation div.vis-button.vis-back{background-image:url(img/network/backIcon.png)}
+.visjs div.vis-network div.vis-manipulation div.vis-button.vis-none:hover{box-shadow:1px 1px 8px transparent;cursor:default}
+.visjs div.vis-network div.vis-manipulation div.vis-button.vis-none:active{box-shadow:1px 1px 8px transparent}
+.visjs div.vis-network div.vis-manipulation div.vis-button.vis-none{padding:0}
+.visjs div.vis-network div.vis-manipulation div.notification{margin:2px;font-weight:700}
+.visjs div.vis-network div.vis-manipulation div.vis-button.vis-add{background-image:url(img/network/addNodeIcon.png)}
+.visjs div.vis-network div.vis-edit-mode div.vis-button.vis-edit, .visjs div.vis-network div.vis-manipulation div.vis-button.vis-edit{background-image:url(img/network/editIcon.png)}
+.visjs div.vis-network div.vis-edit-mode div.vis-button.vis-edit.vis-edit-mode{background-color:#fcfcfc;border:1px solid #ccc}
+.visjs div.vis-network div.vis-manipulation div.vis-button.vis-connect{background-image:url(img/network/connectIcon.png)}
+.visjs div.vis-network div.vis-manipulation div.vis-button.vis-delete{background-image:url(img/network/deleteIcon.png)}
+.visjs div.vis-network div.vis-edit-mode div.vis-label, .visjs div.vis-network div.vis-manipulation div.vis-label{margin:0 0 0 23px;line-height:25px}
+.visjs div.vis-network div.vis-manipulation div.vis-separator-line{float:left;display:inline-block;width:1px;height:21px;background-color:#bdbdbd;margin:0 7px 0 15px}
+.visjs div.vis-network-tooltip{position:absolute;visibility:hidden;padding:5px;white-space:nowrap;font-family:verdana;font-size:14px;color:#000;background-color:#f5f4ed;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;border:1px solid #808074;box-shadow:3px 3px 10px rgba(0,0,0,.2);pointer-events:none}
+.visjs div.vis-network div.vis-navigation div.vis-button{width:34px;height:34px;-moz-border-radius:17px;border-radius:17px;position:absolute;display:inline-block;background-position:2px 2px;background-repeat:no-repeat;cursor:pointer;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.visjs div.vis-network div.vis-navigation div.vis-button:hover{box-shadow:0 0 3px 3px rgba(56,207,21,.3)}
+.visjs div.vis-network div.vis-navigation div.vis-button:active{box-shadow:0 0 1px 3px rgba(56,207,21,.95)}
+.visjs div.vis-network div.vis-navigation div.vis-button.vis-up{background-image:url(img/network/upArrow.png);bottom:50px;left:55px}
+.visjs div.vis-network div.vis-navigation div.vis-button.vis-down{background-image:url(img/network/downArrow.png);bottom:10px;left:55px}
+.visjs div.vis-network div.vis-navigation div.vis-button.vis-left{background-image:url(img/network/leftArrow.png);bottom:10px;left:15px}
+.visjs div.vis-network div.vis-navigation div.vis-button.vis-right{background-image:url(img/network/rightArrow.png);bottom:10px;left:95px}
+.visjs div.vis-network div.vis-navigation div.vis-button.vis-zoomIn{background-image:url(img/network/plus.png);bottom:10px;right:15px}
+.visjs div.vis-network div.vis-navigation div.vis-button.vis-zoomOut{background-image:url(img/network/minus.png);bottom:10px;right:55px}
+.visjs div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends{background-image:url(img/network/zoomExtends.png);bottom:50px;right:15px}
+.visjs div.vis-color-picker{position:absolute;top:0;left:30px;margin-top:-140px;margin-left:30px;width:310px;height:444px;z-index:1;padding:10px;border-radius:15px;background-color:#fff;display:none;box-shadow:rgba(0,0,0,.5) 0 0 10px 0}
+.visjs div.vis-color-picker div.vis-arrow{position:absolute;top:147px;left:5px}
+.visjs div.vis-color-picker div.vis-arrow::after, .visjs div.vis-color-picker div.vis-arrow::before{right:100%;top:50%;border:solid transparent;content:" ";height:0;width:0;position:absolute;pointer-events:none}
+.visjs div.vis-color-picker div.vis-arrow:after{border-color:rgba(255,255,255,0);border-right-color:#fff;border-width:30px;margin-top:-30px}
+.visjs div.vis-color-picker div.vis-color{position:absolute;width:289px;height:289px;cursor:pointer}
+.visjs div.vis-color-picker div.vis-brightness{position:absolute;top:313px}
+.visjs div.vis-color-picker div.vis-opacity{position:absolute;top:350px}
+.visjs div.vis-color-picker div.vis-selector{position:absolute;top:137px;left:137px;width:15px;height:15px;border-radius:15px;border:1px solid #fff;background:#4c4c4c;background:-moz-linear-gradient(top,#4c4c4c 0,#595959 12%,#666 25%,#474747 39%,#2c2c2c 50%,#000 51%,#111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#4c4c4c),color-stop(12%,#595959),color-stop(25%,#666),color-stop(39%,#474747),color-stop(50%,#2c2c2c),color-stop(51%,#000),color-stop(60%,#111),color-stop(76%,#2b2b2b),color-stop(91%,#1c1c1c),color-stop(100%,#131313));background:-webkit-linear-gradient(top,#4c4c4c 0,#595959 12%,#666 25%,#474747 39%,#2c2c2c 50%,#000 51%,#111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%);background:-o-linear-gradient(top,#4c4c4c 0,#595959 12%,#666 25%,#474747 39%,#2c2c2c 50%,#000 51%,#111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%);background:-ms-linear-gradient(top,#4c4c4c 0,#595959 12%,#666 25%,#474747 39%,#2c2c2c 50%,#000 51%,#111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%);background:linear-gradient(to bottom,#4c4c4c 0,#595959 12%,#666 25%,#474747 39%,#2c2c2c 50%,#000 51%,#111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%);filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313', GradientType=0 )}
+.visjs div.vis-color-picker div.vis-initial-color, .visjs div.vis-color-picker div.vis-new-color{width:140px;height:20px;top:380px;font-size:10px;color:rgba(0,0,0,.4);line-height:20px;position:absolute;vertical-align:middle}
+.visjs div.vis-color-picker div.vis-new-color{border:1px solid rgba(0,0,0,.1);border-radius:5px;left:159px;text-align:right;padding-right:2px}
+.visjs div.vis-color-picker div.vis-initial-color{border:1px solid rgba(0,0,0,.1);border-radius:5px;left:10px;text-align:left;padding-left:2px}
+.visjs div.vis-color-picker div.vis-label{position:absolute;width:300px;left:10px}
+.visjs div.vis-color-picker div.vis-label.vis-brightness{top:300px}
+.visjs div.vis-color-picker div.vis-label.vis-opacity{top:338px}
+.visjs div.vis-color-picker div.vis-button{position:absolute;width:68px;height:25px;border-radius:10px;vertical-align:middle;text-align:center;line-height:25px;top:410px;border:2px solid #d9d9d9;background-color:#f7f7f7;cursor:pointer}
+.visjs div.vis-color-picker div.vis-button.vis-cancel{left:5px}
+.visjs div.vis-color-picker div.vis-button.vis-load{left:82px}
+.visjs div.vis-color-picker div.vis-button.vis-apply{left:159px}
+.visjs div.vis-color-picker div.vis-button.vis-save{left:236px}
+.visjs div.vis-color-picker input.vis-range{width:290px;height:20px}
+
+</style>
+<style>
+.datagrid table {
+    border-collapse: collapse;
+    text-align: left;
+    width: 100%;
+    background: #fff;
+}
+.datagrid table td, .datagrid  table th {
+    padding: 6px 6px;
+    color: #555!important;
+}
+.datagrid table thead th {
+    border-left: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+    cursor: pointer;
+}
+.datagrid table thead th:hover {
+    background: #ddd;
+}
+.datagrid table thead th:first-child {
+    border: none;
+    border-bottom: 1px solid #DDDDDD;
+}
+.datagrid table tbody td {
+    border-left: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+}
+.datagrid table tbody td:first-child {
+    border-left: none;
+}
+.datagrid table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+</style>
+<style>
+.application .hover-cl {
+    color: #999
+}
+.application .hover-cl:hover {
+    color: black
+}
+.application svg:not(:root) {
+    overflow: visible;
+}
+
+</style>
+
+<script src="/static/requirejs@2.3.1/require.min.js"></script>
+<script>
+require.config({paths:
+ {
+    "react": "/static/react@15.3.1/build/react.min",
+    "jquery": "/static/jquery@2.1.1/jquery.min"
+}
+});
+
+</script>
+<script>
+require.config({
+  waitSeconds : 60
+})
+if (window.IPython) {
+    window.api_url = 'http://localhost:8088'
+} else {
+    window.api_url = 'http://localhost:8088'
+}
+
+// http://stackoverflow.com/questions/5916900/how-can-you-detect-the-version-of-a-browser
+window.get_browser = function(){
+    var ua=navigator.userAgent,tem,M=ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
+    if(/trident/i.test(M[1])){
+        tem=/\brv[ :]+(\d+)/g.exec(ua) || []; 
+        return {name:'IE',version:(tem[1]||'')};
+        }   
+    if(M[1]==='Chrome'){
+        tem=ua.match(/\bOPR\/(\d+)/)
+        if(tem!=null) {return {name:'Opera', version:tem[1]};}
+        }   
+    M=M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+    if((tem=ua.match(/version\/(\d+)/i))!=null) {M.splice(1,1,tem[1]);}
+    return M[0] + ' ' + M[1];
+ }
+
+function get_debug_info() {
+    return {
+        hash: window.hash,
+        ipython: window.IPython,
+        browser: get_browser()
+    }
+}
+
+window.onerror = function(msg, url, line, col, error) {
+    var message = "Error: " + msg + "\nurl: " + url + "\nline: " + line ;
+    message += !col ? '' : '\ncolumn: ' + col;
+    message += !error ? '' : '\nerror: ' + error;
+    console.log(message);
+    $.post(api_url + '/error', {
+        page : window.location.href.split('#')[0],
+        message : message,
+        info : JSON.stringify(get_debug_info()),
+    }, function() {
+        alert('Произошла ошибка.\nИнформация отправлена администратору.\nПопробуйте перезагрузить страницу и повторить запрос.')
+    }).fail(function() {
+        alert('Не удается связаться с сервером.\n\
+Проверьте соединение и перезагрузите эту страницу.\n\
+Если соединение не прерывалось, то это проблема на стороне сервера.\n\
+В этом случае напишите на pallada-92@ya.ru');
+    });
+    return true;
+};
+</script>
+<script>
+
+</script>
+<script>
+"use strict";
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+    window.obj_to_list = function (obj) {
+        if ((typeof obj === "undefined" ? "undefined" : _typeof(obj)) != 'object') {
+            return obj;
+        }
+        var keys = [];
+        for (var key in obj) {
+            keys.push(key);
+        }
+        keys.sort();
+        var res = [];
+        for (var i = 0; i < keys.length; i++) {
+            var _key = keys[i];
+            if (_key == '' + i) {
+                res.push(obj_to_list(obj[_key]));
+            } else {
+                res.push([_key, obj_to_list(obj[_key])]);
+            }
+        }
+        return res;
+    };
+});
+"use strict";
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+
+    window.tt = function (val, if_null, if_missing) {
+        if (val === null) {
+            return if_null;
+        }
+        var cur_obj = val;
+
+        for (var _len = arguments.length, path = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
+            path[_key - 3] = arguments[_key];
+        }
+
+        for (var i = 0; i < path.length; i++) {
+            var key = path[i];
+            if (typeof key == 'function') {
+                if (cur_obj == undefined || cur_obj == null) {
+                    return if_missing;
+                } else {
+                    return key(cur_obj);
+                }
+            }
+            if (key in cur_obj) {
+                cur_obj = cur_obj[key];
+            } else {
+                return if_missing;
+            }
+        }
+        if (cur_obj === undefined || cur_obj === null) {
+            return if_missing;
+        }
+        return cur_obj;
+    };
+
+    window.push_if_not_null = function (list, val) {
+        if (val !== null) {
+            list.push(val);
+        }
+    };
+
+    window.iso_to_human = function (iso) {
+        return iso.slice(0, 19).replace('T', ' ');
+    };
+
+    window.stamp_to_human = function (stamp) {
+        var ms = (stamp - 0) * 1000;
+        return iso_to_human(new Date(ms).toISOString());
+    };
+});
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+
+    window.DataManager = function () {
+        function _class(chat_type, hash) {
+            _classCallCheck(this, _class);
+
+            this.hash = hash;
+            this.chat_type = chat_type;
+            this.update_subscribers = [];
+            this._reset();
+        }
+
+        _createClass(_class, [{
+            key: "_reset",
+            value: function _reset() {
+                this.cache = {};
+                this.params = {
+                    word_id: null,
+                    user_id: null,
+                    graph: 'hide', //'communications', 'invitations', 'hide'
+                    temporal: 'hide', // 'week', 'dow', 'month', 'hour', 'hide'
+                    temporal_group: 'msg_count', //
+                    words: 'user' };
+            }
+        }, {
+            key: "reset",
+            value: function reset() {
+                this._reset();
+                this.on_update();
+            }
+        }, {
+            key: "register_update",
+            value: function register_update(func) {
+                this.update_subscribers.push(func);
+                return this.update_subscribers.length - 1;
+            }
+        }, {
+            key: "on_update",
+            value: function on_update() {
+                render();
+                for (var i = 0; i < this.update_subscribers.length; i++) {
+                    var elem = this.update_subscribers[i];
+                    if (typeof elem == 'function') {
+                        elem();
+                    }
+                }
+            }
+        }, {
+            key: "off_update",
+            value: function off_update(pos) {
+                this.update_subscribers[pos] = undefined;
+            }
+        }, {
+            key: "param",
+            value: function param(name, val) {
+                if (val === undefined) {
+                    return this.params[name];
+                }
+                if (R.equals(this.params[name], val)) return;
+                this.params[name] = val;
+                this.on_update();
+            }
+        }, {
+            key: "gd",
+            value: function gd(method, params) {
+                var _this = this;
+
+                var key = this.chat_type + this.hash + '/' + method + JSON.stringify(obj_to_list(params));
+                if (key in this.cache) {
+                    return this.cache[key];
+                }
+                $.get(api_url + '/' + this.chat_type + this.hash + '/' + method, params).done(function (response) {
+                    _this.cache[key] = response;
+                    _this.on_update();
+                });
+                return null;
+            }
+        }]);
+
+        return _class;
+    }();
+});
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+
+    window.LoadableComponent = function () {
+        function _class(element, dm, on_active_change, width, height) {
+            _classCallCheck(this, _class);
+
+            this.width = width;
+            this.height = height;
+            this.element = element;
+            this.dm = dm;
+            this.dm_token = this.dm.register_update(this.data_update.bind(this));
+            this.on_active_change = on_active_change;
+            this.active = false;
+            this.data = {};
+        }
+        // Return null, if not loaded
+
+
+        _createClass(_class, [{
+            key: "get_data",
+            value: function get_data() {
+                throw Error('Abstract');
+            }
+        }, {
+            key: "start",
+            value: function start() {
+                throw Error('Abstract');
+            }
+        }, {
+            key: "stop",
+            value: function stop() {
+                throw Error('Abstract');
+            }
+        }, {
+            key: "data_update",
+            value: function data_update() {
+                var new_data = this.get_data();
+                if (R.equals(new_data, this.data) && this.active) return;
+                if (new_data == null) {
+                    if (this.active) {
+                        this.stop();
+                        this.active = false;
+                        this.on_active_change();
+                    }
+                    return;
+                }
+                if (this.active) {
+                    this.stop();
+                    console.log(this.data, new_data);
+                    this.data = new_data;
+                    this.start();
+                } else {
+                    this.data = new_data;
+                    this.start();
+                    this.active = true;
+                    this.on_active_change();
+                }
+            }
+        }, {
+            key: "unmount",
+            value: function unmount() {
+                this.dm.off_update(this.dm_token);
+                if (this.active) {
+                    this.stop();
+                    this.active = false;
+                }
+            }
+        }]);
+
+        return _class;
+    }();
+});
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+
+    window.ReactLoadableComponent = function (_React$Component) {
+        _inherits(_class, _React$Component);
+
+        function _class() {
+            _classCallCheck(this, _class);
+
+            return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+        }
+
+        _createClass(_class, [{
+            key: "componentDidMount",
+            value: function componentDidMount() {
+                this.component = new this.props.componentClass(this.refs.element, window.dm, this.active_change.bind(this), this.props.width, this.props.height);
+                this.active_change();
+                this.component.data_update();
+            }
+        }, {
+            key: "componentWillUnmount",
+            value: function componentWillUnmount() {
+                this.component.unmount();
+            }
+        }, {
+            key: "active_change",
+            value: function active_change() {
+                $(this.refs.loading).toggle(!this.component.active);
+                $(this.refs.element).toggle(this.component.active);
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                var height = this.props.height || 50;
+                var style0 = {
+                    width: this.props.width,
+                    height: height,
+                    border: '1px solid lightgray',
+                    background: 'white'
+                };
+                var style1 = {
+                    textAlign: 'center',
+                    color: '#999',
+                    lineHeight: height
+                };
+                return React.createElement(
+                    "div",
+                    { style: style0 },
+                    React.createElement(
+                        "div",
+                        { style: style1, ref: "loading" },
+                        "Загрузка..."
+                    ),
+                    React.createElement("div", { ref: "element" })
+                );
+            }
+        }]);
+
+        return _class;
+    }(React.Component);
+});
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+
+    window.InvitationGraphComponent = function (_LoadableComponent) {
+        _inherits(_class, _LoadableComponent);
+
+        function _class() {
+            _classCallCheck(this, _class);
+
+            return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+        }
+
+        _createClass(_class, [{
+            key: "get_data",
+            value: function get_data() {
+                var users = this.dm.gd('users');
+                var invitations = this.dm.gd('invitations');
+                if (users === null || invitations === null) return null;
+                var nodes = R.values(R.mapObjIndexed(function (user, id) {
+                    return {
+                        id: id - 0,
+                        label: user.full_name,
+                        shape: 'circularImage',
+                        image: user.avatar || ''
+                    };
+                }, users));
+                var edges = invitations.relations.map(function (_ref) {
+                    var invited_by = _ref.invited_by;
+                    var user_id = _ref.user_id;
+                    return {
+                        from: invited_by - 0,
+                        to: user_id - 0,
+                        arrows: 'to'
+                    };
+                });
+                return { nodes: nodes, edges: edges };
+            }
+        }, {
+            key: "start",
+            value: function start() {
+                var data1 = {
+                    nodes: new vis.DataSet(R.clone(this.data.nodes)),
+                    edges: new vis.DataSet(R.clone(this.data.edges))
+                };
+                var options = {
+                    width: this.width,
+                    height: this.height,
+                    clickToUse: true
+                };
+                this.network = new vis.Network(this.element, data1, options);
+            }
+        }, {
+            key: "stop",
+            value: function stop() {
+                this.network.destroy();
+            }
+        }]);
+
+        return _class;
+    }(LoadableComponent);
+});
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+
+    window.CommunicationsGraphComponent = function (_LoadableComponent) {
+        _inherits(_class, _LoadableComponent);
+
+        function _class() {
+            _classCallCheck(this, _class);
+
+            return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+        }
+
+        _createClass(_class, [{
+            key: "get_data",
+            value: function get_data() {
+                var users = this.dm.gd('users', {});
+                var graph = this.dm.gd('communications', {});
+                if (graph === null || users === null) return null;
+                var active_users = R.map(function (id) {
+                    return id - 0;
+                }, R.keys(R.filter(R.prop('msg_count'), users)));
+                var nodes = R.values(R.mapObjIndexed(function (_ref, id) {
+                    var full_name = _ref.full_name;
+                    var msg_count = _ref.msg_count;
+                    var avatar = _ref.avatar;
+                    return {
+                        id: id - 0,
+                        label: full_name,
+                        shape: 'circularImage',
+                        size: 20,
+                        image: avatar || ''
+                    };
+                }, users));
+                nodes = R.filter(function (_ref2) {
+                    var id = _ref2.id;
+                    return R.contains(id, active_users);
+                }, nodes);
+                var sliced_graph = graph.relations.slice(0, Math.round(1.6 * nodes.length));
+                var edges = sliced_graph.map(function (_ref3) {
+                    var from_id = _ref3.from_id;
+                    var to_id = _ref3.to_id;
+                    var msg_count = _ref3.msg_count;
+                    return {
+                        from: from_id - 0,
+                        to: to_id - 0,
+                        value: Math.log(msg_count) + 1
+                    };
+                });
+                edges = R.filter(function (_ref4) {
+                    var from = _ref4.from;
+                    var to = _ref4.to;
+                    return R.contains(from, active_users) && R.contains(to, active_users);
+                }, edges);
+                return { nodes: nodes, edges: edges };
+            }
+        }, {
+            key: "start",
+            value: function start() {
+                var data1 = {
+                    nodes: new vis.DataSet(R.clone(this.data.nodes)),
+                    edges: new vis.DataSet(R.clone(this.data.edges))
+                };
+                var options = {
+                    width: this.width,
+                    height: this.height,
+                    clickToUse: true
+                };
+                this.network = new vis.Network(this.element, data1, options);
+            }
+        }, {
+            key: "stop",
+            value: function stop() {
+                this.network.destroy();
+            }
+        }]);
+
+        return _class;
+    }(LoadableComponent);
+});
+"use strict";
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+    window.SortableTable = function (_React$Component) {
+        _inherits(_class, _React$Component);
+
+        function _class() {
+            _classCallCheck(this, _class);
+
+            return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+        }
+
+        _createClass(_class, [{
+            key: "sort",
+            value: function sort(column) {
+                this.sort_by = column;
+                render();
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                var _this2 = this;
+
+                if (this.sort_by) {
+                    this.data = R.reverse(R.sortBy(R.path([this.sort_by, 1]), this.props.data));
+                    console.log(R.map(R.path([this.sort_by, 1]), this.data));
+                    console.log("After sort by " + this.sort_by, this.data);
+                } else {
+                    this.data = this.props.data;
+                }
+                this.columns = this.props.columns;
+                var t = R.transpose(this.props.columns);
+                this.col_names = t[0] || [];
+                this.col_elems = t[1] || [];
+                var header = React.createElement(
+                    "thead",
+                    null,
+                    React.createElement(
+                        "tr",
+                        null,
+                        R.map(function (_ref) {
+                            var _ref2 = _slicedToArray(_ref, 2);
+
+                            var col_name = _ref2[0];
+                            var col_elem = _ref2[1];
+
+                            var sel = col_name == _this2.sort_by;
+                            var style = {
+                                fontWeight: sel ? 'bold' : 'normal'
+                            };
+                            var i_style = {
+                                visibility: sel ? 'visible' : 'hidden'
+                            };
+                            var handler = _this2.sort.bind(_this2, col_name);
+                            return React.createElement(
+                                "th",
+                                { style: style, onClick: handler, key: col_name },
+                                col_elem,
+                                " ",
+                                ' ',
+                                React.createElement("i", { className: "fa fa-sort-desc", style: i_style })
+                            );
+                        }, this.columns)
+                    )
+                );
+                var body = React.createElement(
+                    "tbody",
+                    null,
+                    R.map(function (row) {
+                        return React.createElement(
+                            "tr",
+                            { key: row.id[1] },
+                            R.map(function (col_name) {
+                                return React.createElement(
+                                    "td",
+                                    { key: col_name,
+                                        style: { textAlign: typeof row[col_name][1] == 'number' ? 'right' : 'left' }
+                                    },
+                                    row[col_name][0]
+                                );
+                            }, _this2.col_names)
+                        );
+                    }, this.data)
+                );
+                return React.createElement(
+                    "div",
+                    { className: "datagrid" },
+                    React.createElement(
+                        "table",
+                        null,
+                        header,
+                        body
+                    )
+                );
+            }
+        }]);
+
+        return _class;
+    }(React.Component);
+});
+"use strict";
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+    window.Selector = function (props) {
+        var selected_value = dm.param(props.paramName);
+        var item_style = function item_style(sel) {
+            return {
+                display: 'inline-block',
+                padding: '5px 10px',
+                margin: '0px 3px',
+                color: sel ? 'black' : null,
+                fontSize: 15,
+                cursor: sel ? 'normal' : 'pointer',
+                //fontWeight: sel ? 400 : 300,
+                borderRadius: 3,
+                background: sel ? '#ffffaa' : 'white'
+            };
+        };
+        var handler = function handler(value) {
+            return function () {
+                return dm.param(props.paramName, value);
+            };
+        };
+        var get_item = function get_item(_ref) {
+            var _ref2 = _slicedToArray(_ref, 2);
+
+            var value = _ref2[0];
+            var text = _ref2[1];
+
+            var sel = value == selected_value;
+            return React.createElement(
+                "div",
+                { key: value, style: item_style(sel),
+                    className: sel ? null : 'hover-cl', onClick: handler(value) },
+                text
+            );
+        };
+        return React.createElement(
+            "div",
+            { style: { textAlign: 'center', padding: 5 } },
+            props.items.map(get_item)
+        );
+    };
+
+    window.Title = function (props) {
+        return React.createElement(
+            "div",
+            { style: { textAlign: 'center', padding: 20, fontSize: 18, color: '#999' } },
+            props.text
+        );
+    };
+
+    window.Pad = function (props) {
+        return React.createElement("div", { style: { height: props.height } });
+    };
+});
+"use strict";
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+    window.ChatInfo = function () {
+        var chat_info = dm.gd('chat_info');
+        var lines = [];
+        var site = tt(chat_info, null, null, 'site');
+        if (site == 'vk') {
+            lines.push('Групповой чат ВК.');
+        } else if (site == 'tg') {
+            push_if_not_null(lines, tt(chat_info, null, 'Чат telegram.', 'chat_type', function (ct) {
+                return {
+                    'private': 'Приватный чат telegram.',
+                    'group': 'Групповой чат telegram.',
+                    'supergroup': 'Супергруповой чат telegram.',
+                    'channel': 'Канал telegram.'
+                }[ct];
+            }));
+        }
+        push_if_not_null(lines, tt(chat_info, null, null, 'uploaded_by', function (ub) {
+            return tt(dm.gd('users'), 'Загружено пользователем ...', null, ub, 'full_name', function (fn) {
+                return 'Загружено пользователем ' + fn + '.';
+            });
+        }));
+        push_if_not_null(lines, tt(chat_info, null, null, 'update_date', function (ud) {
+            return 'Дата последнего обновления: ' + iso_to_human(ud) + '.';
+        }));
+        push_if_not_null(lines, tt(chat_info, null, null, 'uploaded_date', function (ud) {
+            return 'Дата загрузки: ' + iso_to_human(ud) + '.';
+        }));
+        push_if_not_null(lines, tt(chat_info, 'Проанализировано ... сообщений', 'Проанализированы сообщения', 'msg_count', function (mc) {
+            return 'Проанализировано ' + mc + ' соощений';
+        }) + tt(chat_info, ' с ..', ' с ..', 'first_msg_stamp', function (st) {
+            return ' с ' + stamp_to_human(st);
+        }) + tt(chat_info, ' по ..', ' по ..', 'last_msg_stamp', function (st) {
+            return ' по ' + stamp_to_human(st);
+        }) + '.');
+        lines = lines.map(function (line) {
+            return React.createElement(
+                "div",
+                null,
+                line
+            );
+        });
+        return React.createElement(
+            "div",
+            null,
+            React.createElement(
+                "div",
+                { style: { textAlign: 'left', fontSize: 18, color: 'black', padding: 15 } },
+                tt(chat_info, 'Загрузка...', 'Безымянный чат', 'title')
+            ),
+            React.createElement(
+                "div",
+                { style: { color: '#777', textAlign: 'left', fontSize: 13, padding: '0px 0px 15px 15px' } },
+                lines
+            )
+        );
+    };
+});
+"use strict";
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+    window.Graphs = function () {
+        var items = [['communications', 'Кто с кем общается'], ['invitations', 'Кто кого пригласил'], ['hide', 'Скрыть']];
+        var graph = null;
+        if (dm.param('graph') == 'invitations') {
+            graph = React.createElement(ReactLoadableComponent, { key: "invitations", componentClass: InvitationGraphComponent, width: "100%", height: "500px" });
+        } else if (dm.param('graph') == 'communications') {
+            graph = React.createElement(ReactLoadableComponent, { key: "communications", componentClass: CommunicationsGraphComponent, width: "100%", height: "500px" });
+        }
+        return React.createElement(
+            "div",
+            null,
+            React.createElement(Selector, { paramName: "graph", items: items, padTop: true }),
+            graph
+        );
+    };
+});
+"use strict";
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+
+    window.float_to_human = function (float, frac_digits) {
+        if (R.isNil(float) || isNaN(float)) {
+            return '—';
+        }
+        if (float < 0) {
+            return '-' + float_to_human(-float, frac_digits);
+        }
+        var int = Math.floor(float);
+        var frac = float - int;
+        var t = '' + (1 + float - int);
+        var frac_str = void 0;
+        if (t.indexOf('.') == -1) {
+            frac_str = '';
+        } else {
+            frac_str = t.split('.')[1];
+        }
+        frac_str += '00000000000';
+        return int + '.' + frac_str.slice(0, frac_digits);
+    };
+
+    window.ratio_to_human = function (ratio) {
+        if (R.isNil(ratio) || isNaN(ratio)) {
+            return '—';
+        } else {
+            return float_to_human(ratio * 100, 2) + '%';
+        }
+    };
+
+    window.Users = function () {
+        var users = dm.gd('users');
+        if (users === null) {
+            return React.createElement(
+                "div",
+                { style: { color: '#999', padding: 20 } },
+                "Загрузка пользователей..."
+            );
+        }
+        var col_specs = [{
+            name: 'profile_url',
+            title: '',
+            val: function val(_val, user) {
+                return _val && user.id;
+            },
+            content: function content(val, user) {
+                return React.createElement(
+                    "a",
+                    { href: user.profile_url, target: "_blank" },
+                    React.createElement("i", { className: "fa fa-external-link" })
+                );
+            }
+        }, {
+            name: 'avatar',
+            title: '',
+            val: function val(_val2, user) {
+                return _val2 && user.id;
+            },
+            content: function content(val, user) {
+                return React.createElement("img", { src: user.avatar, width: 30, height: 30 });
+            }
+        }, {
+            name: 'full_name',
+            title: '',
+            val: function val(_val3, user) {
+                return _val3;
+            },
+            content: function content(val, user) {
+                return val;
+            }
+        }, {
+            name: 'select',
+            title: '',
+            val: function val() {
+                return true;
+            },
+            content: function content(val, user) {
+                return React.createElement("i", { className: user.id == dm.param('user_id') ? "fa fa-dot-circle-o fa-lg" : "fa fa-circle-o fa-lg", style: { cursor: 'pointer' }, onClick: function onClick() {
+                        return dm.param('user_id', user.id);
+                    } });
+            }
+        }, {
+            name: 'msg_count',
+            title: 'сообщ.',
+            val: function val(_val4) {
+                return _val4 || null;
+            },
+            content: function content(val, user) {
+                return R.isNil(val) ? '—' : val;
+            }
+        }, {
+            name: 'adj_count',
+            title: 'прил.',
+            val: function val(_val5, user) {
+                return user.word_count && !R.isNil(_val5) ? _val5 / user.word_count : null;
+            },
+            content: function content(val, user) {
+                return ratio_to_human(val);
+            }
+        }, {
+            name: 'noun_count',
+            title: 'сущ.',
+            val: function val(_val6, user) {
+                return user.word_count && !R.isNil(_val6) ? _val6 / user.word_count : null;
+            },
+            content: function content(val, user) {
+                return ratio_to_human(val);
+            }
+        }, {
+            name: 'total_length',
+            title: 'ср. длина',
+            val: function val(_val7, user) {
+                return user.msg_count && !R.isNil(_val7) ? _val7 / user.msg_count : null;
+            },
+            content: function content(val, user) {
+                return float_to_human(val, 1);
+            }
+        }, {
+            name: 'punct_count',
+            title: ';)',
+            val: function val(_val8, user) {
+                return user.total_length && !R.isNil(_val8) ? _val8 / user.total_length : null;
+            },
+            content: function content(val, user) {
+                return ratio_to_human(val, 2);
+            }
+        }, {
+            name: 'id',
+            title: null,
+            val: function val(_val9) {
+                return _val9;
+            },
+            content: function content(val) {
+                return null;
+            }
+        }];
+        var active_users = R.filter(R.prop('msg_count'), R.values(users));
+        var inactive_users = R.reject(R.prop('msg_count'), R.values(users));
+        var inactive_users_descr = React.createElement(
+            "div",
+            { style: { color: '#999', textAlign: 'left', padding: 10, fontSize: 13 } },
+            "Из данного отчета были исключены пользователи ",
+            ' ',
+            R.intersperse(', ', inactive_users.map(function (user) {
+                return user.profile_url ? React.createElement(
+                    "a",
+                    { href: user.profile_url },
+                    user.full_name
+                ) : React.createElement(
+                    "span",
+                    null,
+                    user.full_name
+                );
+            })),
+            ", так как за данный период они не оставили ни одного сообщения"
+        );
+        if (inactive_users.length == 0) {
+            inactive_users_descr = [];
+        }
+        var data = R.map(function (user) {
+            return R.fromPairs(R.map(function (_ref) {
+                var title = _ref.title;
+                var val = _ref.val;
+                var content = _ref.content;
+                var name = _ref.name;
+                return [name, [content(val(user[name], user, users), user, users), val(user[name], user, users)]];
+            }, col_specs));
+        }, R.values(active_users));
+        var columns = R.map(function (_ref2) {
+            var title = _ref2.title;
+            var name = _ref2.name;
+            return [name, title];
+        }, col_specs);
+        columns = R.reject(function (_ref3) {
+            var _ref4 = _slicedToArray(_ref3, 2);
+
+            var name = _ref4[0];
+            var title = _ref4[1];
+            return R.all(R.isNil, R.map(R.path([name, 1]), data));
+        }, columns);
+        columns = R.reject(function (_ref5) {
+            var _ref6 = _slicedToArray(_ref5, 2);
+
+            var name = _ref6[0];
+            var title = _ref6[1];
+            return R.isNil(title);
+        }, columns);
+        return React.createElement(
+            "div",
+            null,
+            React.createElement(Title, { text: "Рейтинг пользователей" }),
+            React.createElement(SortableTable, { columns: columns, data: data }),
+            inactive_users_descr
+        );
+    };
+});
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+
+    window.two_digits = function (x) {
+        if (x <= 9) {
+            return '0' + ('' + x);
+        }
+        return '' + x;
+    };
+
+    window.add_date = function (date, days) {
+        var t = new Date(date);
+        t.setDate(t.getDate() + days);
+        return t;
+    };
+
+    window.date_range = function (by, min, max) {
+        if (by == 'hour') {
+            min = '00';
+            max = '23';
+        } else if (by == 'dow') {
+            min = '0';
+            max = '6';
+        }
+        var res = [min];
+        var cur_date = min;
+        while (cur_date < max) {
+            if (by == 'hour') {
+                cur_date = two_digits(cur_date - 0 + 1);
+            } else if (by == 'dow') {
+                cur_date = cur_date - 0 + 1 + '';
+            } else if (by == 'month') {
+                var _cur_date$split$map = cur_date.split('-').map(function (x) {
+                    return x - 0;
+                });
+
+                var _cur_date$split$map2 = _slicedToArray(_cur_date$split$map, 2);
+
+                var year = _cur_date$split$map2[0];
+                var month = _cur_date$split$map2[1];
+
+                month += 1;
+                if (month > 12) {
+                    month = 1;
+                    year += 1;
+                }
+                cur_date = year + '-' + two_digits(month);
+            } else if (by == 'week') {
+                var t = add_date(cur_date, 7);
+                cur_date = t.getFullYear() + '-' + two_digits(t.getMonth() + 1) + '-' + two_digits(t.getDate());
+            }
+            res.push(cur_date);
+        }
+        return res;
+    };
+
+    window.TemporalPlotComponent = function (_LoadableComponent) {
+        _inherits(_class, _LoadableComponent);
+
+        function _class() {
+            _classCallCheck(this, _class);
+
+            return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+        }
+
+        _createClass(_class, [{
+            key: "get_data",
+            value: function get_data() {
+                var by = this.dm.param('temporal');
+                var user_id = this.dm.param('user_id');
+                var word_id = this.dm.param('word_id');
+                if (by == 'hide') {
+                    return null;
+                }
+                var users = this.dm.gd('users');
+                var temporal = this.dm.gd('temporal', { by: by });
+                var temporal_user = user_id && this.dm.gd('temporal_user', { by: by, user_id: user_id });
+                var temporal_word = word_id && this.dm.gd('temporal_word', { by: by, word_id: word_id });
+                if (temporal === null) return null;
+                var active_attrs = R.mergeAll(R.values(temporal));
+
+                var _R$juxt = R.juxt([R.reduce(R.min, '9999-99-99'), R.reduce(R.max, '0000-00-00')])(R.keys(temporal));
+
+                var _R$juxt2 = _slicedToArray(_R$juxt, 2);
+
+                var min_date = _R$juxt2[0];
+                var max_date = _R$juxt2[1];
+
+                var dr = date_range(by, min_date, max_date);
+                var items = [];
+                var groups = [];
+                var date_mapping = {
+                    week: function week(date) {
+                        return add_date(date, 3);
+                    },
+                    month: function month(_month) {
+                        return _month + '-15';
+                    },
+                    dow: function dow(_dow) {
+                        return '2000-01-1' + (_dow != '0' ? _dow - 1 : 6) + ' 12:00';
+                    },
+                    hour: function hour(_hour) {
+                        return '2000-01-01 ' + _hour + ':30';
+                    }
+                }[by];
+                var shift_range = {
+                    week: [add_date(min_date, -1), add_date(max_date, 7)],
+                    month: [add_date(min_date, -0), add_date(max_date, 30)],
+                    dow: ['2000-01-10', '2000-01-17'],
+                    hour: ['2000-01-01 00:00', '2000-01-02 00:00']
+                }[by];
+                if ('msg_count' in active_attrs) {
+                    dr.forEach(function (period) {
+                        return items.push({
+                            x: date_mapping(period),
+                            y: R.path([period, 'msg_count'], temporal) || 0,
+                            group: 'msg_count'
+                        });
+                    });
+                    groups.push({
+                        id: 'msg_count',
+                        visible: this.dm.param('temporal_group') == 'msg_count'
+                    });
+                }
+                if ('active_users' in active_attrs) {
+                    dr.forEach(function (period) {
+                        return items.push({
+                            x: date_mapping(period),
+                            y: R.path([period, 'active_users'], temporal) || 0,
+                            group: 'active_users'
+                        });
+                    });
+                    groups.push({
+                        id: 'active_users',
+                        visible: this.dm.param('temporal_group') == 'active_users'
+                    });
+                }
+                if ('total_punct' in active_attrs && 'total_chars' in active_attrs) {
+                    dr.forEach(function (period) {
+                        var total_chars = R.path([period, 'total_chars'], temporal) || 0;
+                        var total_punct = R.path([period, 'total_punct'], temporal) || 0;
+                        items.push({
+                            x: date_mapping(period),
+                            y: total_chars > 0 ? total_punct / total_chars : 0,
+                            group: 'punct'
+                        });
+                    });
+                    groups.push({
+                        id: 'punct',
+                        visible: this.dm.param('temporal_group') == 'punct'
+                    });
+                }
+                if (temporal_user !== null) {
+                    dr.forEach(function (period) {
+                        return items.push({
+                            x: date_mapping(period),
+                            y: R.path([period, 'msg_count'], temporal_user) || 0,
+                            group: 'user_msg'
+                        });
+                    });
+                    groups.push({
+                        id: 'user_msg',
+                        visible: this.dm.param('temporal_group') == 'user_msg'
+                    });
+                }
+                if (temporal_word !== null) {
+                    dr.forEach(function (period) {
+                        return items.push({
+                            x: date_mapping(period),
+                            y: R.path([period, 'msg_count'], temporal_word) || 0,
+                            group: 'word_msg'
+                        });
+                    });
+                    groups.push({
+                        id: 'word_msg',
+                        visible: this.dm.param('temporal_group') == 'word_msg'
+                    });
+                }
+                return { items: items, groups: groups, shift_range: shift_range, by: by };
+            }
+        }, {
+            key: "start",
+            value: function start() {
+                var dataset = new vis.DataSet(R.clone(this.data.items));
+                var groups = new vis.DataSet(R.clone(this.data.groups));
+                var by = this.data.by;
+                var day = 24 * 60 * 60 * 1000;
+                var options = {
+                    width: this.width,
+                    height: this.height,
+                    clickToUse: true,
+                    min: this.data.shift_range[0],
+                    max: this.data.shift_range[1],
+                    start: this.data.shift_range[0],
+                    end: this.data.shift_range[1],
+                    zoomMin: {
+                        week: 7 * day,
+                        month: 30 * day,
+                        dow: day,
+                        hour: day / 24
+                    }[by],
+                    showMajorLabels: {
+                        week: true,
+                        month: true,
+                        dow: false,
+                        hour: false
+                    }[by],
+                    maxMinorChars: by == 'week' ? 3 : 3,
+                    format: {
+                        minorLabels: {
+                            hour: 'HH',
+                            weekday: by == 'dow' ? 'ddd' : 'D',
+                            day: {
+                                hour: 'D',
+                                dow: 'ddd',
+                                week: 'DD'
+                            }[by],
+                            month: 'MMM',
+                            year: 'YYYY'
+                        }
+                    }
+                };
+                this.plot = new vis.Graph2d(this.element, dataset, groups, options);
+            }
+        }, {
+            key: "stop",
+            value: function stop() {
+                this.plot.destroy();
+            }
+        }]);
+
+        return _class;
+    }(LoadableComponent);
+});
+"use strict";
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+    window.Plots = function () {
+        var periods = [['hour', 'По времени суток'], ['dow', 'По дням недели'], ['week', 'По неделям'], ['month', 'По месяцам'], ['hide', 'Скрыть']];
+        var groups = [['msg_count', 'Всех сообщ.'], ['active_users', 'Активных пользователей'], ['punct', ';)']];
+        if (dm.param('user_id') && dm.gd('users') !== null) {
+            var full_name = dm.gd('users')[dm.param('user_id')].full_name;
+            groups.push(['user_msg', 'Сообщ. ' + full_name]);
+        }
+        if (dm.param('word_id')) {
+            groups.push(['word_msg', 'Сообщ. "' + dm.param('word') + '"']);
+        }
+        var component = React.createElement(ReactLoadableComponent, { componentClass: TemporalPlotComponent, width: "100%", height: "500px" });
+        return React.createElement(
+            "div",
+            { className: "visjs", style: { position: 'relative' } },
+            React.createElement(Selector, { paramName: "temporal", items: periods }),
+            React.createElement(Selector, { paramName: "temporal_group", items: groups }),
+            dm.param('temporal') == 'hide' ? null : component
+        );
+    };
+});
+"use strict";
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+
+    window.WordsList = function (props) {
+        var make_handler = function make_handler(word_id, word) {
+            return function () {
+                dm.param('word_id', word_id);
+                dm.param('word', word);
+            };
+        };
+        var style = function style(sel) {
+            return {
+                color: sel ? 'black' : 'blue',
+                fontWeight: sel ? 'bold' : 'normal',
+                cursor: sel ? 'normal' : 'pointer'
+            };
+        };
+        return React.createElement(
+            "div",
+            { style: { width: props.width, display: 'inline-block',
+                    textAlign: 'left', padding: '10px 5px', verticalAlign: 'top' } },
+            React.createElement(
+                "div",
+                { style: { fontSize: 18, color: '#999' } },
+                props.title
+            ),
+            R.intersperse(', ', props.words.map(function (_ref) {
+                var word = _ref.word;
+                var word_id = _ref.word_id;
+                var msg_count = _ref.msg_count;
+                return React.createElement(
+                    "span",
+                    { style: style(word_id == dm.param('word_id')),
+                        onClick: make_handler(word_id, word) },
+                    word,
+                    React.createElement(
+                        "sup",
+                        null,
+                        msg_count
+                    )
+                );
+            }, props.words))
+        );
+    };
+
+    window.Words = function () {
+        var groups = [['all', 'Все слова'], ['dow', 'По дням недели'], ['month', 'По месяцам'], ['user', 'По пользователям']];
+        var loading = React.createElement(
+            "div",
+            { style: { color: '#999', padding: 20 } },
+            "Загрузка слов..."
+        );
+        var blocks = [];
+        var by = dm.param('words');
+        if (by == 'all') {
+            var top_words = dm.gd('top_words');
+            if (top_words === null) return loading;
+            blocks = [React.createElement(WordsList, { title: "", width: "100%", words: top_words })];
+        } else if (by == 'dow' || by == 'month') {
+            var _ret = function () {
+                var top_words = dm.gd('temporal_top_words', { by: by });
+                if (top_words === null) return {
+                        v: loading
+                    };
+                var months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+                var days_of_week = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+                var display_key = {
+                    dow: function dow(key) {
+                        return days_of_week[key - 0];
+                    },
+                    month: function month(key) {
+                        return months[key.split('-')[1] - 1] + ' ' + key.split('-')[0];
+                    }
+                }[by];
+                blocks = R.map(function (_ref2) {
+                    var _ref3 = _slicedToArray(_ref2, 2);
+
+                    var key = _ref3[0];
+                    var obj = _ref3[1];
+                    return React.createElement(WordsList, { title: display_key(key), width: 250, words: obj });
+                }, R.sortBy(R.prop(0), R.toPairs(top_words)));
+            }();
+
+            if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
+        } else if (by == 'user') {
+            var _ret2 = function () {
+                var top_words = dm.gd('users_top_words');
+                var users = dm.gd('users');
+                if (top_words === null || users === null) {
+                    return {
+                        v: loading
+                    };
+                }
+                blocks = R.map(function (_ref4) {
+                    var _ref5 = _slicedToArray(_ref4, 2);
+
+                    var full_name = _ref5[0];
+                    var obj = _ref5[1];
+                    return React.createElement(WordsList, { title: full_name, width: 240, words: obj });
+                }, R.sortBy(R.prop(0), R.map(function (_ref6) {
+                    var _ref7 = _slicedToArray(_ref6, 2);
+
+                    var user_id = _ref7[0];
+                    var obj = _ref7[1];
+                    return [users[user_id].full_name, obj];
+                }, R.toPairs(top_words))));
+            }();
+
+            if ((typeof _ret2 === "undefined" ? "undefined" : _typeof(_ret2)) === "object") return _ret2.v;
+        }
+        return React.createElement(
+            "div",
+            null,
+            React.createElement(Selector, { paramName: "words", items: groups }),
+            blocks
+        );
+    };
+});
+"use strict";
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+    window.Application = function () {
+        return React.createElement(
+            "div",
+            { style: { width: '100%', maxWidth: 800, display: 'inline-block', fontFamily: 'Roboto, Helvetica', background: 'white' } },
+            React.createElement(ChatInfo, null),
+            React.createElement(Pad, { height: 60 }),
+            React.createElement(Graphs, null),
+            React.createElement(Pad, { height: 60 }),
+            React.createElement(Users, null),
+            React.createElement(Pad, { height: 60 }),
+            React.createElement(Plots, null),
+            React.createElement(Pad, { height: 60 }),
+            React.createElement(Words, null),
+            React.createElement(Pad, { height: 60 })
+        );
+    };
+});
+"use strict";
+
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function ($, React, vis, R, ReactDOM) {
+    window.render = function () {
+        var chat_info = dm.gd('chat_info');
+        if (chat_info !== null && chat_info.title) {
+            document.title = chat_info.title;
+        }
+        ReactDOM.render(React.createElement(Application, null), document.getElementById('root'));
+    };
+});
+
+</script>
+</head><body>
+<div id="root" class="application" style="text-align: center"></div>
+<script>
+require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function($, React, vis, R, ReactDOM) {
+if (!window.IPython) {
+    $(function() {
+        let chat_code = window.location.href.split('/').pop()
+        let site = chat_code.slice(0, 2)
+        let chat_id = chat_code.slice(2)
+        window.dm = new DataManager(site, chat_id);
+        render();
+    })
+}
+})
+
+</script>
+</body></html>
