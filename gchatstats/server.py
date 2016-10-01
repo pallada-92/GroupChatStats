@@ -938,9 +938,9 @@ js_libs = {
     'react@15.3.1/build/react.min.js': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js',
     'requirejs@2.3.1/require.min.js': 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.1/require.min.js',
     'requirejs@2.3.1/require.min.js.map': 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.1/require.min.js.map',
-    'visjs@4.16.1/dist/vis.min.css': 'https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.min.css',
-    'visjs@4.16.1/dist/vis.min.js': 'https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.min.js',
-    'visjs@4.16.1/dist/vis.map': 'https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.map',
+    'visjs@4.16.1/dist/vis.min.css': 'https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.0/vis.min.css',
+    'visjs@4.16.1/dist/vis.min.js': 'https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.0/vis.min.js',
+    'visjs@4.16.1/dist/vis.map': 'https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.0/vis.map',
     'fontawesome@4.6.3.zip': 'http://fontawesome.io/assets/font-awesome-4.6.3.zip'
 }
 
