@@ -975,7 +975,7 @@ if 'get_ipython' in globals():
     server_dir = '/data/sets/server/gchatstats'
     static_dir = '/data/sets/server/gchatstats/static'
 else:
-    port = 80
+    port = 8000
     client_url = 'http://localhost:8888'
     server_url = 'http://host:%d' % port
     data_dir = 'data' # '/data/sets/server/gchatstats/data'
