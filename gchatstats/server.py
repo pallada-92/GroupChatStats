@@ -941,7 +941,9 @@ js_libs = {
     'visjs@4.16.1/dist/vis.min.css': 'https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.0/vis.min.css',
     'visjs@4.16.1/dist/vis.min.js': 'https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.0/vis.min.js',
     'visjs@4.16.1/dist/vis.map': 'https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.0/vis.map',
-    'fontawesome@4.6.3.zip': 'http://fontawesome.io/assets/font-awesome-4.6.3.zip'
+    'fontawesome@4.6.3.zip': 'http://fontawesome.io/assets/font-awesome-4.6.3.zip',
+    'es5shim@4.5.9/es5-shim.js': 'https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js',
+    'es5shim@4.5.9/es5-sham.js': 'https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-sham.min.js'
 }
 
 def install_js_libs():
