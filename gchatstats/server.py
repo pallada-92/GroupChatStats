@@ -931,6 +931,7 @@ class ServeStatic(tornado.web.StaticFileHandler):
         return res
 
 js_libs = {
+    'jquery@1.12.4/jquery.min.js': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js',
     'jquery@2.1.1/jquery.min.js': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js',
     'jquery@2.1.1/jquery.min.map': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.map',
     'ramda@0.22.1/ramda.min.js': 'https://cdnjs.cloudflare.com/ajax/libs/ramda/0.22.1/ramda.min.js',
