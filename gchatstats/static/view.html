@@ -1641,9 +1641,9 @@ require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ram
 require(["jquery", "react", "/static/visjs@4.16.1/dist/vis.min.js", "/static/ramda@0.22.1/ramda.min.js", "/static/react@15.3.1/build/react-dom.min.js"], function($, React, vis, R, ReactDOM) {
 if (!window.IPython) {
     $(function() {
-        let chat_code = window.location.href.split('/').pop()
-        let site = chat_code.slice(0, 2)
-        let chat_id = chat_code.slice(2)
+        var chat_code = window.location.href.split('/').pop()
+        var site = chat_code.slice(0, 2)
+        var chat_id = chat_code.slice(2)
         window.dm = new DataManager(site, chat_id);
         render();
     })
